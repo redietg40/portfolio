@@ -1,0 +1,26 @@
+ .nav{
+    
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    display: flex;
+    GAP:30px;
+    justify-content: center;
+
+    
+} 
+header{
+    padding: 10px 0;
+    display: flex;
+    gap: 700px;
+    
+}
+ ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+li {
+    display: inline;
+    margin-right: 20px;
+
+}
