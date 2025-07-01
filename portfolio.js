@@ -14,7 +14,7 @@ const statNumbers = document.querySelectorAll(".stat-number")
 hamburger.addEventListener("click", () => {
   hamburger.classList.toggle("active")
   navMenu.classList.toggle("active")
-})
+});
 
 // Close mobile menu when clicking on a link
 navLinks.forEach((link) => {
