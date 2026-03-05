@@ -1,0 +1,57 @@
+{
+  "about": "I am a software developer that loves building both user interfaces and server backends. During my learning journey, I met and conquered several hurdles, which helped me gain significant experience and enhance my skills.",
+  "skills": [
+    {
+      "id": 1,
+      "name": "HTML",
+      "percentage": 90,
+      "icon": "fa-brands fa-html5",
+      "category": "frontend"
+    },
+    {
+      "id": 2,
+      "name": "CSS",
+      "percentage": 80,
+      "icon": "fa-brands fa-css3-alt",
+      "category": "frontend"
+    },
+    {
+      "id": 3,
+      "name": "JavaScript",
+      "percentage": 80,
+      "icon": "fa-brands fa-js",
+      "category": "frontend"
+    },
+    {
+      "id": 4,
+      "name": "React",
+      "percentage": 75,
+      "icon": "fa-brands fa-react",
+      "category": "frontend"
+    },
+    {
+      "id": 5,
+      "name": "Node.js",
+      "percentage": 75,
+      "icon": "fa-brands fa-node-js",
+      "category": "backend"
+    },
+    {
+      "id": 6,
+      "name": "Git",
+      "percentage": 50,
+      "icon": "fa-brands fa-git-alt",
+      "category": "tools"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "Internship Placement Platform",
+      "description": "A modern platform built with React and Node.js, featuring user authentication and more.",
+      "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop",
+      "liveUrl": "#",
+      "githubUrl": "#"
+    }
+  ]
+}
