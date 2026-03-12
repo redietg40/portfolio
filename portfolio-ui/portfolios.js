@@ -144,7 +144,7 @@ const DEFAULT_SKILLS = {
 const DEFAULT_PROJECTS = [
   {
     name: "Internship Placement Platform",
-    image: "../images/internship-platform-with-students-and-companies.jpg",
+    image: "images/internship-platform-with-students-and-companies.jpg",
     description:
       "A modern e-commerce platform built with React and Node.js, featuring user authentication, shopping cart, and payment integration.",
     liveUrl: "#",
@@ -152,7 +152,7 @@ const DEFAULT_PROJECTS = [
   },
   {
     name: "Ethio Trip Platform",
-    image: "../images/ethiopia-travel-tourism-platform-with-lalibela-chu.jpg",
+    image: "images/ethiopia-travel-tourism-platform-with-lalibela-chu.jpg",
     description:
       "An interactive web platform for discovering curated tours and cultural highlights across Ethiopia, built with React and modern UI/UX design.",
     liveUrl: "#",
@@ -160,7 +160,7 @@ const DEFAULT_PROJECTS = [
   },
   {
     name: "Weather Dashboard",
-    image: "../images/weather-dashboard-app-with-charts-sunny-clouds.jpg",
+    image: "images/weather-dashboard-app-with-charts-sunny-clouds.jpg",
     description:
       "A responsive weather dashboard that displays real-time weather data with beautiful animations and interactive charts.",
     liveUrl: "#",
@@ -168,7 +168,7 @@ const DEFAULT_PROJECTS = [
   },
   {
     name: "Electronic Device Delivery Platform",
-    image: "../images/electronics-delivery-ecommerce-platform-with-smart.jpg",
+    image: "images/electronics-delivery-ecommerce-platform-with-smart.jpg",
     description:
       "A full-featured electronic device delivery platform with order tracking, user reviews, and secure payment options.",
     liveUrl: "#",
@@ -176,7 +176,7 @@ const DEFAULT_PROJECTS = [
   },
   {
     name: "Brokerage Management System",
-    image: "../images/broker-images.jpg",
+    image: "images/broker-images.jpg",
     description:
       "A secure platform connecting verified brokers with customers, featuring broker registration, listing management, and admin dashboard.",
     liveUrl: "#",
@@ -1084,4 +1084,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 500)
   }
 })
+
 
