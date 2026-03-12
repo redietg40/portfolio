@@ -92,7 +92,7 @@ function createTextElement(tag, text, className = "") {
 // ============================================
 // API CONFIGURATION
 // ============================================
-const API_URL = "http://localhost:3000/api";
+const API_URL = "/api";
 
 // ============================================
 // DEFAULT DATA (Fallback - will be used if API fails or returns empty)
@@ -1084,3 +1084,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 500)
   }
 })
+
