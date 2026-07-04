@@ -148,7 +148,7 @@ const DEFAULT_PROJECTS = [
     description:
       "A modern e-commerce platform built with React and Node.js, featuring user authentication, shopping cart, and payment integration.",
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/redietg40/internship-placement.git",
   },
   {
     name: "Ethio Trip Platform",
@@ -156,23 +156,23 @@ const DEFAULT_PROJECTS = [
     description:
       "An interactive web platform for discovering curated tours and cultural highlights across Ethiopia, built with React and modern UI/UX design.",
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/redietg40/city-touring.git",
   },
   {
-    name: "Weather Dashboard",
-    image: "images/weather-dashboard-app-with-charts-sunny-clouds.jpg",
+    name: "University Placement Platform",
+    image: "images/university-placement-platform.png",
     description:
-      "A responsive weather dashboard that displays real-time weather data with beautiful animations and interactive charts.",
+      "A comprehensive university selection and placement platform that helps students discover, compare, and apply to universities based on their preferences and qualifications.",
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/university-place/university-selection-platforms.git",
   },
   {
-    name: "Electronic Device Delivery Platform",
-    image: "images/electronics-delivery-ecommerce-platform-with-smart.jpg",
+    name: "Adtocare",
+    image: "images/adtocare-platform.png",
     description:
-      "A full-featured electronic device delivery platform with order tracking, user reviews, and secure payment options.",
+      "Adtocare is a smart advertising and care management platform designed to connect businesses with their target audience through intelligent ad delivery and customer engagement tools.",
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/redietg40/Adstocares.git",
   },
   {
     name: "Brokerage Management System",
@@ -180,7 +180,7 @@ const DEFAULT_PROJECTS = [
     description:
       "A secure platform connecting verified brokers with customers, featuring broker registration, listing management, and admin dashboard.",
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/redietg40/brokermanagement.git",
   },
 ]
 
