@@ -1,0 +1,81 @@
+{
+  "about": "I am a software developer that loves building both user interfaces and server backends. During my learning journey, I met and conquered several hurdles, which helped me gain significant experience and enhance my skills.",
+  "skills": [
+    {
+      "id": 1,
+      "name": "HTML",
+      "percentage": 90,
+      "icon": "fa-brands fa-html5",
+      "category": "frontend"
+    },
+    {
+      "id": 2,
+      "name": "CSS",
+      "percentage": 80,
+      "icon": "fa-brands fa-css3-alt",
+      "category": "frontend"
+    },
+    {
+      "id": 3,
+      "name": "JavaScript",
+      "percentage": 80,
+      "icon": "fa-brands fa-js",
+      "category": "frontend"
+    },
+    {
+      "id": 4,
+      "name": "React",
+      "percentage": 75,
+      "icon": "fa-brands fa-react",
+      "category": "frontend"
+    },
+    {
+      "id": 5,
+      "name": "Node.js",
+      "percentage": 75,
+      "icon": "fa-brands fa-node-js",
+      "category": "backend"
+    },
+    {
+      "id": 6,
+      "name": "Git",
+      "percentage": 50,
+      "icon": "fa-brands fa-git-alt",
+      "category": "tools"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "University Selection Platform",
+      "description": "Built full-stack platform with Next.js (App Router) and React featuring role-based dashboards for students, universities, and MOE admins, coupled with a cross-platform React Native/Expo mobile app for placement tracking.",
+      "image": "../images/university-selection-platform.png",
+      "liveUrl": "#",
+      "githubUrl": "https://github.com/university-place/university-selection-platforms.git"
+    },
+    {
+      "id": 2,
+      "name": "AddToCare — Women Empowerment Platform",
+      "description": "Engineered full-stack platform with Next.js/React featuring a three-dashboard architecture (Company, Admin, User), revenue-sharing model via PostgreSQL transactions for atomic fund allocation, and real-time analytics.",
+      "image": "../images/addtocare-women-empowerment.png",
+      "liveUrl": "#",
+      "githubUrl": "https://github.com/redietg40/Adstocares.git"
+    },
+    {
+      "id": 3,
+      "name": "Internship Placement Platform",
+      "description": "Developed full-stack PHP/MySQL platform for students to search/apply for internships and companies to manage postings, featuring secure company dashboard and dynamic student search filters.",
+      "image": "../images/internship-platform-with-students-and-companies.jpg",
+      "liveUrl": "#",
+      "githubUrl": "https://github.com/redietg40/internship-placement.git"
+    },
+    {
+      "id": 4,
+      "name": "Brokerage Management System",
+      "description": "Built comprehensive platform for real estate/insurance brokers using PHP/MySQL with role-based access control, client management module with full CRUD operations, and reporting dashboards.",
+      "image": "../images/broker-images.jpg",
+      "liveUrl": "#",
+      "githubUrl": "https://github.com/redietg40/brokermanagement-System.git"
+    }
+  ]
+}

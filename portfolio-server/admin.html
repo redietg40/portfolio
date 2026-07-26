@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <i class="fas fa-user-shield"></i>
+        <h2>Admin Panel</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-section="about">
+          <i class="fas fa-user"></i>
+          <span>About Me</span>
+        </button>
+        <button class="nav-btn" data-section="skills">
+          <i class="fas fa-code"></i>
+          <span>Skills</span>
+        </button>
+        <button class="nav-btn" data-section="projects">
+          <i class="fas fa-project-diagram"></i>
+          <span>Projects</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="export-btn" onclick="exportPortfolio()">
+          <i class="fas fa-download"></i>
+          <span>Export Portfolio</span>
+        </button>
+        <a href="../portfolio-ui/porfolios.html" class="view-portfolio" target="_blank">
+          <i class="fas fa-external-link-alt"></i>
+          <span>View Portfolio</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- About Section -->
+      <section id="about-section" class="content-section active">
+        <div class="section-header">
+          <h1><i class="fas fa-user"></i> About Me</h1>
+          <p>Edit your personal introduction</p>
+        </div>
+        <div class="card">
+          <form id="about-form">
+            <div class="form-group">
+              <label for="about-text">About Text</label>
+              <textarea id="about-text" rows="8" placeholder="Write about yourself..."></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section id="skills-section" class="content-section">
+        <div class="section-header">
+          <h1><i class="fas fa-code"></i> Skills</h1>
+          <p>Manage your technical skills</p>
+        </div>
+        
+        <!-- Add Skill Form -->
+        <div class="card">
+          <h3><i class="fas fa-plus-circle"></i> Add New Skill</h3>
+          <form id="skill-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="skill-name">Skill Name</label>
+                <input type="text" id="skill-name" placeholder="e.g., JavaScript" required>
+              </div>
+              <div class="form-group">
+                <label for="skill-percentage">Proficiency (%)</label>
+                <input type="number" id="skill-percentage" min="0" max="100" placeholder="80" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="skill-icon">Icon Class (Font Awesome)</label>
+                <input type="text" id="skill-icon" placeholder="e.g., fa-brands fa-js" required>
+              </div>
+              <div class="form-group">
+                <label for="skill-category">Category</label>
+                <select id="skill-category" required>
+                  <option value="">Select category</option>
+                  <option value="frontend">Frontend</option>
+                  <option value="backend">Backend</option>
+                  <option value="tools">Tools</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Skill
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Skills List -->
+        <div class="card">
+          <h3><i class="fas fa-list"></i> Your Skills</h3>
+          <div class="filter-tabs">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="frontend">Frontend</button>
+            <button class="filter-btn" data-filter="backend">Backend</button>
+            <button class="filter-btn" data-filter="tools">Tools</button>
+          </div>
+          <div id="skills-list" class="items-grid"></div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects-section" class="content-section">
+        <div class="section-header">
+          <h1><i class="fas fa-project-diagram"></i> Projects</h1>
+          <p>Showcase your work</p>
+        </div>
+
+        <!-- Add Project Form -->
+        <div class="card">
+          <h3><i class="fas fa-plus-circle"></i> Add New Project</h3>
+          <form id="project-form">
+            <div class="form-group">
+              <label for="project-name">Project Name</label>
+              <input type="text" id="project-name" placeholder="e.g., E-commerce Website" required>
+            </div>
+            <div class="form-group">
+              <label for="project-description">Description</label>
+              <textarea id="project-description" rows="4" placeholder="Describe your project..." required></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="project-image">Image URL</label>
+                <input type="url" id="project-image" placeholder="https://example.com/image.jpg">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="project-live">Live URL</label>
+                <input type="url" id="project-live" placeholder="https://myproject.com">
+              </div>
+              <div class="form-group">
+                <label for="project-github">GitHub URL</label>
+                <input type="url" id="project-github" placeholder="https://github.com/user/repo">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Project
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Projects List -->
+        <div class="card">
+          <h3><i class="fas fa-th-large"></i> Your Projects</h3>
+          <div id="projects-list" class="projects-grid"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Edit Item</h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamic content will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
