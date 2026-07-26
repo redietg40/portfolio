@@ -60,7 +60,7 @@ header {
   background-clip: text;
 }
 
-/* Hamburger menu styles */
+/* Added hamburger menu styles */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -132,72 +132,25 @@ li a:hover {
   padding-top: 80px;
 }
 
-/* Fixed hero section - proper single header layout */
-.hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-  padding: 60px 40px;
-  min-height: calc(100vh - 80px);
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* Redesigned introduction section for unified hero text */
-.introduction {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-/* "Hello I'm" styled as primary greeting with accent color */
-.introduction h2 {
-  font-size: 1.8rem;
-  color: #f5d742;
-  margin: 0;
-  font-weight: 600;
-}
-
-/* Main name is the primary visual focus */
 .name {
   color: white;
   font-size: 3rem;
   font-weight: 700;
-  margin: 0;
+  margin-bottom: 1rem;
   line-height: 1.2;
 }
 
 .highlight {
-  background: linear-gradient(135deg, #f5d742 0%, #667eea 100%);
+  background: #f5d742;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Typewriter title for role */
-#typewriter-title {
-  font-size: 1.5rem;
-  color: #f5d742;
-  margin: 0.5rem 0;
-  font-weight: 600;
-  min-height: 2rem;
-}
-
-/* Description text below the titles */
-.introduction h3 {
-  font-size: 1.1rem;
-  color: #cccccc;
-  margin: 0.5rem 0 0 0;
-  line-height: 1.6;
-  font-weight: 400;
-  max-width: 500px;
-}
-
 .buttons {
   display: flex;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 .explore {
@@ -249,6 +202,28 @@ li a:hover {
 .btn-contact:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(245, 215, 66, 0.4);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 60px 40px;
+  min-height: 80vh;
+}
+
+.introduction h2 {
+  font-size: 1.8rem;
+  color: #f5d742;
+  margin-bottom: 1rem;
+}
+
+.introduction h3 {
+  font-size: 1.2rem;
+  color: #cccccc;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
 }
 
 /* Fixed profile container to properly contain floating icons */
@@ -943,14 +918,6 @@ li a:hover {
     gap: 3rem;
   }
 
-  .introduction {
-    align-items: center;
-  }
-
-  .introduction h3 {
-    max-width: 100%;
-  }
-
   .buttons {
     justify-content: center;
   }
@@ -1058,16 +1025,8 @@ li a:hover {
     min-height: auto;
   }
 
-  .introduction h2 {
-    font-size: 1.4rem;
-  }
-
   .name {
     font-size: 2rem;
-  }
-
-  #typewriter-title {
-    font-size: 1.2rem;
   }
 
   .introduction h3 {
@@ -1287,16 +1246,8 @@ li a:hover {
 
 /* Extra small screen fixes */
 @media (max-width: 480px) {
-  .introduction h2 {
-    font-size: 1.2rem;
-  }
-
   .name {
     font-size: 1.6rem;
-  }
-
-  #typewriter-title {
-    font-size: 1rem;
   }
 
   .profile {

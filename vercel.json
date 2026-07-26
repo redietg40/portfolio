@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "portfolio-server/src/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "portfolio-ui/**/*.{html,css,js,json,webp,jpg,png,svg,ico}",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "portfolio-server/src/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/portfolio-ui/$1"
+    }
+  ]
+}

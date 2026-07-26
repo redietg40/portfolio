@@ -1,4 +1,8 @@
 require('dotenv').config();
+console.log('DATABASE_URL:', process.env.DATABASE_URL);
+console.log('🔍 DATABASE_URL from .env:', process.env.DATABASE_URL);
+console.log('📁 Current directory:', process.cwd());
+
 const express=require('express');
 const cors=require('cors');
 const { PrismaClient } = require('./generated/prisma');
@@ -6,17 +10,6 @@ const { Pool } = require('pg');
 const { PrismaPg } = require('@prisma/adapter-pg');
 const app=express();
 const port=3000;
-
-// Simple in-memory store for verification tokens (demo only).
-// For production use a persistent store (DB) and rate-limiting.
-const emailVerifications = new Map();
-const crypto = require('crypto');
-let nodemailer;
-try {
-    nodemailer = require('nodemailer');
-} catch (e) {
-    console.warn('nodemailer not installed. Verification emails will not be sent. Install with `npm i nodemailer`');
-}
 
 // Create PostgreSQL connection pool
 const pool = new Pool({
@@ -68,6 +61,7 @@ app.get('/api/about', async (req,res)=>{
     } catch (error) {
         res.status(500).json({error: 'Failed to fetch about text', details: error.message});
     }
+    
 });
 
 app.get('/api/skills', async (req,res)=>{
@@ -216,164 +210,6 @@ app.delete('/api/admin/projects/:id', async (req,res)=>{
     }
 });
 
-// ============================================
-// Contact Form Endpoints
-// ============================================
-
-// POST - Submit a new contact message (Public)
-app.post('/api/contact', async (req, res) => {
-    try {
-        const { name, email, message } = req.body;
-
-        // Validation
-        if (!name || !email || !message) {
-            return res.status(400).json({
-                success: false,
-                error: 'Name, email, and message are required'
-            });
-        }
-
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return res.status(400).json({
-                success: false,
-                error: 'Please provide a valid email address'
-            });
-        }
-
-        // Sanitize inputs (basic XSS prevention)
-        const sanitize = (str) => {
-            if (typeof str !== 'string') return '';
-            return str.replace(/<[^>]*>/g, '').trim();
-        };
-
-        const newContact = await prisma.contact.create({
-            data: {
-                name: sanitize(name),
-                email: sanitize(email),
-                message: sanitize(message),
-            }
-        });
-
-        res.status(201).json({
-            success: true,
-            message: 'Your message has been sent successfully!',
-            contact: {
-                id: newContact.id,
-                name: newContact.name,
-                createdAt: newContact.createdAt
-            }
-        });
-    } catch (error) {
-        console.error('Contact form error:', error);
-        res.status(500).json({
-            success: false,
-            error: 'Failed to send message. Please try again later.',
-            details: process.env.NODE_ENV === 'development' ? error.message : undefined
-        });
-    }
-});
-
-// ============================================
-// Email verification endpoints (demo)
-// POST /verify-email  -> sends verification email with token link
-// GET  /verify-email?token=... -> marks email as verified (clicked link)
-// GET  /verify-status?email=... -> returns JSON { verified: true|false }
-// ============================================
-
-app.post('/verify-email', async (req, res) => {
-    try {
-        const { email } = req.body;
-        if (!email) return res.status(400).json({ success: false, error: 'Email is required' });
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) return res.status(400).json({ success: false, error: 'Invalid email format' });
-
-        // Generate a token and expiry (15 minutes)
-        const token = crypto.randomBytes(20).toString('hex');
-        const expiresAt = Date.now() + 15 * 60 * 1000;
-
-        emailVerifications.set(token, { email, verified: false, expiresAt });
-
-        const verifyUrl = `${req.protocol}://${req.get('host')}/verify-email?token=${token}`;
-
-        // Send email if nodemailer available
-        if (nodemailer) {
-            // Configure transporter using environment variables
-            const transporter = nodemailer.createTransport({
-                host: process.env.SMTP_HOST || 'smtp.example.com',
-                port: parseInt(process.env.SMTP_PORT || '587', 10),
-                secure: process.env.SMTP_SECURE === 'true',
-                auth: process.env.SMTP_USER
-                    ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-                    : undefined,
-            });
-
-            const mailOptions = {
-                from: process.env.EMAIL_FROM || 'no-reply@example.com',
-                to: email,
-                subject: 'Please verify your email address',
-                text: `Click the link to verify your email: ${verifyUrl}`,
-                html: `<p>Click the link to verify your email:</p><p><a href="${verifyUrl}">${verifyUrl}</a></p>`,
-            };
-
-            try {
-                await transporter.sendMail(mailOptions);
-            } catch (sendErr) {
-                console.error('Failed to send verification email:', sendErr.message);
-                // Still return success to avoid leaking which emails are valid.
-            }
-        } else {
-            console.log('Verification link (nodemailer not installed):', verifyUrl);
-        }
-
-        // For demo, return token expiry (do not return token in production)
-        return res.json({ success: true, message: 'Verification email sent (check inbox)', expiresAt });
-    } catch (err) {
-        console.error('verify-email error:', err);
-        return res.status(500).json({ success: false, error: 'Internal error' });
-    }
-});
-
-app.get('/verify-email', (req, res) => {
-    const { token } = req.query;
-    if (!token) return res.status(400).send('Missing token');
-
-    const entry = emailVerifications.get(token);
-    if (!entry) return res.status(400).send('Invalid or expired token');
-
-    if (entry.expiresAt < Date.now()) {
-        emailVerifications.delete(token);
-        return res.status(400).send('Token expired');
-    }
-
-    entry.verified = true;
-    // You may persist this verification to DB here
-
-    // Simple confirmation page
-    res.send(`<html><body><h2>Email verified</h2><p>The email ${entry.email} has been verified successfully.</p></body></html>`);
-});
-
-app.get('/verify-status', (req, res) => {
-    const email = req.query.email;
-    if (!email) return res.status(400).json({ success: false, error: 'Email is required' });
-
-    // Search for any token entry for this email and return verified status
-    for (const [token, entry] of emailVerifications.entries()) {
-        if (entry.email === email) {
-            // If expired, delete
-            if (entry.expiresAt < Date.now()) {
-                emailVerifications.delete(token);
-                continue;
-            }
-            return res.json({ success: true, verified: !!entry.verified });
-        }
-    }
-
-    return res.json({ success: true, verified: false });
-});
-
 app.listen(port,()=>{
     console.log(`Portfolio Server is listening on port ${port}`);
 });
@@ -382,4 +218,4 @@ app.listen(port,()=>{
 process.on('beforeExit', async () => {
     await prisma.$disconnect();
     await pool.end();
-});               
+});                     

@@ -12,6 +12,11 @@
 // SECURITY UTILITIES
 // ============================================
 
+/**
+ * Sanitize string to prevent XSS attacks
+ * @param {string} str - Input string to sanitize
+ * @returns {string} - Sanitized string
+ */
 function sanitizeInput(str) {
   if (typeof str !== "string") return ""
   return str
@@ -24,11 +29,21 @@ function sanitizeInput(str) {
     .trim()
 }
 
+/**
+ * Validate email format
+ * @param {string} email - Email to validate
+ * @returns {boolean} - Whether email is valid
+ */
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return emailRegex.test(email) && email.length <= 254
 }
 
+/**
+ * Validate URL format (only allow http/https)
+ * @param {string} url - URL to validate
+ * @returns {boolean} - Whether URL is valid and safe
+ */
 function isValidUrl(url) {
   try {
     const parsedUrl = new URL(url)
@@ -38,6 +53,13 @@ function isValidUrl(url) {
   }
 }
 
+/**
+ * Create a safe external link element
+ * @param {string} href - Link URL
+ * @param {string} iconClass - Font Awesome icon class
+ * @param {string} ariaLabel - Accessibility label
+ * @returns {HTMLAnchorElement} - Secure anchor element
+ */
 function createSecureLink(href, iconClass, ariaLabel) {
   const link = document.createElement("a")
   link.href = href
@@ -53,6 +75,13 @@ function createSecureLink(href, iconClass, ariaLabel) {
   return link
 }
 
+/**
+ * Create element with text content (safe from XSS)
+ * @param {string} tag - HTML tag name
+ * @param {string} text - Text content
+ * @param {string} className - CSS class name
+ * @returns {HTMLElement} - Created element
+ */
 function createTextElement(tag, text, className = "") {
   const element = document.createElement(tag)
   element.textContent = text
@@ -63,21 +92,19 @@ function createTextElement(tag, text, className = "") {
 // ============================================
 // API CONFIGURATION
 // ============================================
-
-const API_URL = "http://localhost:3000/api"
-const VERIFICATION_BASE = API_URL.replace(/\/api\/?$/, "")
+const API_URL = "/api";
 
 // ============================================
-// DEFAULT DATA
+// DEFAULT DATA (Fallback - will be used if API fails or returns empty)
 // ============================================
 
 const DEFAULT_PORTFOLIO_DATA = {
   name: "Rediet Getahun",
   title: "Full-stack Software Developer",
-  about: `I am software developer that loves building both user interfaces and server backends.
-    During my learning journey, I met and conquered several hurdles,
-    which helped me gain significant experience and enhance my skills.
-    Additionally, I like learning new technologies and working with people to develop effective,
+  about: `I am software developer that loves building both user interfaces and server backends. 
+    During my learning journey, I met and conquered several hurdles, 
+    which helped me gain significant experience and enhance my skills. 
+    Additionally, I like learning new technologies and working with people to develop effective, 
     user-friendly, and significant solutions`,
   contact: {
     email: "redu.getahun21@email.com",
@@ -116,47 +143,54 @@ const DEFAULT_SKILLS = {
 
 const DEFAULT_PROJECTS = [
   {
-    name: "University Selection Platform",
-    image: "../images/university-selection-platform.png",
-    description:
-      "Built full-stack platform with Next.js (App Router) and React featuring role-based dashboards for students, universities, and MOE admins, coupled with a cross-platform React Native/Expo mobile app for placement tracking.",
-    liveUrl: "#",
-    githubUrl: "https://github.com/university-place/university-selection-platforms.git",
-  },
-  {
-    name: "AddToCare — Women Empowerment Platform",
-    image: "../images/addtocare-women-empowerment.png",
-    description:
-      "Engineered full-stack platform with Next.js/React featuring a three-dashboard architecture (Company, Admin, User), revenue-sharing model via PostgreSQL transactions for atomic fund allocation, and real-time analytics.",
-    liveUrl: "#",
-    githubUrl: "https://github.com/redietg40/Adstocares.git",
-  },
-  {
     name: "Internship Placement Platform",
-    image: "../images/internship-platform-with-students-and-companies.jpg",
+    image: "images/internship-platform-with-students-and-companies.jpg",
     description:
-      "Developed full-stack PHP/MySQL platform for students to search/apply for internships and companies to manage postings, featuring secure company dashboard and dynamic student search filters.",
+      "A modern e-commerce platform built with React and Node.js, featuring user authentication, shopping cart, and payment integration.",
     liveUrl: "#",
     githubUrl: "https://github.com/redietg40/internship-placement.git",
   },
   {
-    name: "Brokerage Management System",
-    image: "../images/broker-images.jpg",
+    name: "Ethio Trip Platform",
+    image: "images/ethiopia-travel-tourism-platform-with-lalibela-chu.jpg",
     description:
-      "Built comprehensive platform for real estate/insurance brokers using PHP/MySQL with role-based access control, client management module with full CRUD operations, and reporting dashboards.",
+      "An interactive web platform for discovering curated tours and cultural highlights across Ethiopia, built with React and modern UI/UX design.",
     liveUrl: "#",
-    githubUrl: "https://github.com/redietg40/brokermanagement-System.git",
+    githubUrl: "https://github.com/redietg40/city-touring.git",
+  },
+  {
+    name: "University Placement Platform",
+    image: "images/university-placement-platform.png",
+    description:
+      "A comprehensive university selection and placement platform that helps students discover, compare, and apply to universities based on their preferences and qualifications.",
+    liveUrl: "#",
+    githubUrl: "https://github.com/university-place/university-selection-platforms.git",
+  },
+  {
+    name: "Adtocare",
+    image: "images/adtocare-platform.png",
+    description:
+      "Adtocare is a smart advertising and care management platform designed to connect businesses with their target audience through intelligent ad delivery and customer engagement tools.",
+    liveUrl: "#",
+    githubUrl: "https://github.com/redietg40/Adstocares.git",
+  },
+  {
+    name: "Brokerage Management System",
+    image: "images/broker-images.jpg",
+    description:
+      "A secure platform connecting verified brokers with customers, featuring broker registration, listing management, and admin dashboard.",
+    liveUrl: "#",
+    githubUrl: "https://github.com/redietg40/brokermanagement.git",
   },
 ]
 
-
 // ============================================
-// RUNTIME DATA
+// RUNTIME DATA (Will be populated from API or defaults)
 // ============================================
 
 let PORTFOLIO_DATA = { ...DEFAULT_PORTFOLIO_DATA }
-let SKILLS = JSON.parse(JSON.stringify(DEFAULT_SKILLS))
-let PROJECTS = [...DEFAULT_PROJECTS]
+let SKILLS = JSON.parse(JSON.stringify(DEFAULT_SKILLS)) // Deep copy
+let PROJECTS = [...DEFAULT_PROJECTS] // Copy array
 
 const NAV_ITEMS = Object.freeze([
   { href: "#home", text: "Home" },
@@ -173,6 +207,7 @@ const FLOATING_ICONS = Object.freeze([
   "fa-brands fa-react",
 ])
 
+// CONTACT_ITEMS will be created dynamically based on PORTFOLIO_DATA
 function getContactItems() {
   return [
     {
@@ -213,9 +248,12 @@ function getContactItems() {
 }
 
 // ============================================
-// RENDER FUNCTIONS
+// RENDER FUNCTIONS (Using safe DOM APIs)
 // ============================================
 
+/**
+ * Render the header navigation
+ */
 function renderHeader() {
   const header = document.getElementById("header-container")
   if (!header) return
@@ -225,6 +263,7 @@ function renderHeader() {
   hamburger.setAttribute("aria-label", "Toggle navigation menu")
   hamburger.setAttribute("aria-expanded", "false")
 
+  // Create three spans for hamburger lines
   for (let i = 0; i < 3; i++) {
     const span = document.createElement("span")
     hamburger.appendChild(span)
@@ -234,6 +273,7 @@ function renderHeader() {
   overlay.className = "nav-overlay"
   overlay.id = "nav-overlay"
 
+  // Create nav
   const nav = document.createElement("nav")
   const ul = document.createElement("ul")
   ul.className = "nav"
@@ -258,10 +298,14 @@ function renderHeader() {
   initializeHamburgerMenu(hamburger, ul, overlay)
 }
 
+/**
+ * Render the hero section
+ */
 function renderHero() {
   const heroContainer = document.getElementById("hero-container")
   if (!heroContainer) return
 
+  // Introduction section
   const introduction = document.createElement("div")
   introduction.className = "introduction"
 
@@ -302,6 +346,7 @@ function renderHero() {
   introduction.appendChild(h3)
   introduction.appendChild(buttons)
 
+  // Profile section
   const profile = document.createElement("div")
   profile.className = "profile"
 
@@ -309,7 +354,7 @@ function renderHero() {
   profileImage.className = "profile-image"
 
   const img = document.createElement("img")
-  img.src = `images/ffff.jpg`
+  img.src = "../images/ffff.jpg"
   img.alt = `${PORTFOLIO_DATA.name} Profile`
   img.loading = "lazy"
   profileImage.appendChild(img)
@@ -333,6 +378,9 @@ function renderHero() {
   heroContainer.appendChild(profile)
 }
 
+/**
+ * Render the about section
+ */
 function renderAbout() {
   const aboutSection = document.getElementById("about")
   if (!aboutSection) return
@@ -345,12 +393,16 @@ function renderAbout() {
   aboutSection.appendChild(description)
 }
 
+/**
+ * Render the skills section
+ */
 function renderSkills() {
   const skillsSection = document.getElementById("skills")
   if (!skillsSection) return
 
   const title = createTextElement("p", "Skills", "skill-title")
 
+  // Tab buttons
   const categories = document.createElement("div")
   categories.className = "skill-categories"
 
@@ -368,13 +420,15 @@ function renderSkills() {
     categories.appendChild(button)
   })
 
+  // Skill container
   const skillContainer = document.createElement("div")
   skillContainer.className = "skill-container"
 
+  // Create skill panels
   Object.entries(SKILLS).forEach(([category, skills]) => {
     const panel = document.createElement("div")
     panel.id = category
-    panel.className = category === "frontend" ? "all-skills active" : "all-skills"
+    panel.className = category === "frontend" ? "all-skills active" : ""
     panel.setAttribute("data-tab-content", "")
 
     skills.forEach((skill) => {
@@ -417,9 +471,13 @@ function renderSkills() {
   skillsSection.appendChild(categories)
   skillsSection.appendChild(skillContainer)
 
+  // Initialize tabs
   initializeTabs()
 }
 
+/**
+ * Render the projects section
+ */
 function renderProjects() {
   const projectsSection = document.getElementById("projects")
   if (!projectsSection) return
@@ -435,6 +493,7 @@ function renderProjects() {
     card.className = "project-card"
     card.style.animationDelay = `${index * 0.1}s`
 
+    // Image container
     const imageContainer = document.createElement("div")
     imageContainer.className = "project-image"
 
@@ -452,6 +511,7 @@ function renderProjects() {
     const links = document.createElement("div")
     links.className = "project-links"
 
+    // Secure external links with rel="noopener noreferrer"
     const liveLink = createSecureLink(project.liveUrl, "fas fa-external-link-alt", `View ${project.name} live`)
     const githubLink = createSecureLink(project.githubUrl, "fab fa-github", `View ${project.name} on GitHub`)
 
@@ -462,6 +522,7 @@ function renderProjects() {
     imageContainer.appendChild(img)
     imageContainer.appendChild(overlay)
 
+    // Project info
     const info = document.createElement("div")
     info.className = "project-info"
 
@@ -480,6 +541,9 @@ function renderProjects() {
   projectsSection.appendChild(grid)
 }
 
+/**
+ * Render the contact section
+ */
 function renderContact() {
   const contactSection = document.getElementById("contact")
   if (!contactSection) return
@@ -494,6 +558,7 @@ function renderContact() {
   const content = document.createElement("div")
   content.className = "contact-content"
 
+  // Contact info
   const infoContainer = document.createElement("div")
   infoContainer.className = "contact-info"
 
@@ -518,6 +583,7 @@ function renderContact() {
       const link = document.createElement("a")
       link.href = item.href
       link.textContent = item.value
+      // Security: Add noopener noreferrer to external links
       if (item.external) {
         link.setAttribute("target", "_blank")
         link.setAttribute("rel", "noopener noreferrer")
@@ -535,6 +601,7 @@ function renderContact() {
     infoContainer.appendChild(contactItem)
   })
 
+  // Contact form
   const formContainer = document.createElement("div")
   formContainer.className = "contact-form"
 
@@ -542,9 +609,13 @@ function renderContact() {
   form.id = "contact-form"
   form.setAttribute("novalidate", "")
 
+  // Name field
   const nameGroup = createFormGroup("name", "text", "Name:", "Your full name")
+
+  // Email field
   const emailGroup = createFormGroup("email", "email", "Email:", "your.email@example.com")
 
+  // Message field
   const messageGroup = document.createElement("div")
   messageGroup.className = "form-group"
 
@@ -567,11 +638,13 @@ function renderContact() {
   messageGroup.appendChild(messageTextarea)
   messageGroup.appendChild(messageError)
 
+  // Submit button
   const submitBtn = document.createElement("button")
   submitBtn.type = "submit"
   submitBtn.className = "submit-btn"
   submitBtn.textContent = "Send Message"
 
+  // Success message
   const successMessage = createTextElement(
     "div",
     "Thank you! Your message has been sent successfully.",
@@ -594,9 +667,13 @@ function renderContact() {
   contactSection.appendChild(subtitle)
   contactSection.appendChild(content)
 
+  // Initialize form validation
   initializeForm()
 }
 
+/**
+ * Create a form group with input
+ */
 function createFormGroup(id, type, labelText, placeholder) {
   const group = document.createElement("div")
   group.className = "form-group"
@@ -623,6 +700,9 @@ function createFormGroup(id, type, labelText, placeholder) {
   return group
 }
 
+/**
+ * Render the footer
+ */
 function renderFooter() {
   const footer = document.getElementById("footer-container")
   if (!footer) return
@@ -641,6 +721,9 @@ function renderFooter() {
 // INTERACTIVE FEATURES
 // ============================================
 
+/**
+ * Initialize tab functionality
+ */
 function initializeTabs() {
   const tabs = document.querySelectorAll("[data-tab-target]")
   const tabContents = document.querySelectorAll("[data-tab-content]")
@@ -658,6 +741,9 @@ function initializeTabs() {
   })
 }
 
+/**
+ * Typewriter effect
+ */
 function typeWriter(elementId, text, speed = 100) {
   const element = document.getElementById(elementId)
   if (!element) return
@@ -675,25 +761,30 @@ function typeWriter(elementId, text, speed = 100) {
   type()
 }
 
+/**
+ * Initialize form with validation and rate limiting
+ */
 function initializeForm() {
   const form = document.getElementById("contact-form")
   if (!form) return
 
   let lastSubmitTime = 0
-  const RATE_LIMIT_MS = 30000
+  const RATE_LIMIT_MS = 5000 // 5 seconds between submissions
 
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault()
 
+    // Rate limiting check
     const now = Date.now()
     if (now - lastSubmitTime < RATE_LIMIT_MS) {
-      const waitTime = Math.ceil((RATE_LIMIT_MS - (now - lastSubmitTime)) / 1000)
-      alert(`Please wait ${waitTime} seconds before submitting again.`)
+      alert("Please wait a few seconds before submitting again.")
       return
     }
 
+    // Clear previous errors
     clearErrors()
 
+    // Get and sanitize values
     const nameInput = document.getElementById("name")
     const emailInput = document.getElementById("email")
     const messageInput = document.getElementById("message")
@@ -704,6 +795,7 @@ function initializeForm() {
 
     let isValid = true
 
+    // Validate name
     if (!name || name.length < 2) {
       showError("name", "Please enter a valid name (at least 2 characters).")
       isValid = false
@@ -712,11 +804,13 @@ function initializeForm() {
       isValid = false
     }
 
+    // Validate email
     if (!email || !isValidEmail(email)) {
       showError("email", "Please enter a valid email address.")
       isValid = false
     }
 
+    // Validate message
     if (!message || message.length < 10) {
       showError("message", "Please enter a message (at least 10 characters).")
       isValid = false
@@ -725,137 +819,50 @@ function initializeForm() {
       isValid = false
     }
 
-    if (!isValid) return
+    if (isValid) {
+      lastSubmitTime = now
 
-    const submitBtn = form.querySelector(".submit-btn")
-    submitBtn.disabled = true
-    submitBtn.textContent = "Verifying email..."
+      // Disable button during submission
+      const submitBtn = form.querySelector(".submit-btn")
+      submitBtn.disabled = true
+      submitBtn.textContent = "Sending..."
 
-    try {
-      // 1) Ask server to send a verification email (user must click link)
-      await fetch(`${VERIFICATION_BASE}/verify-email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      })
+      // Simulate form submission (replace with actual API call)
+      setTimeout(() => {
+        // Show success message
+        const successMessage = document.getElementById("success-message")
+        successMessage.classList.add("visible")
 
-      // 2) Show simple in-form notice with a button to check verification status
-      let notice = document.getElementById("verify-notice")
-      if (!notice) {
-        notice = document.createElement("div")
-        notice.id = "verify-notice"
-        notice.className = "verify-notice"
-        const p = document.createElement("p")
-        p.textContent = "A verification email was sent to your address. Please open your inbox and click the verification link."
-        const checkBtn = document.createElement("button")
-        checkBtn.type = "button"
-        checkBtn.textContent = "I clicked the link — check status"
-        checkBtn.className = "check-verification"
+        // Reset form
+        form.reset()
+        submitBtn.disabled = false
+        submitBtn.textContent = "Send Message"
 
-        const cancelBtn = document.createElement("button")
-        cancelBtn.type = "button"
-        cancelBtn.textContent = "Cancel"
-        cancelBtn.className = "cancel-verification"
-
-        notice.appendChild(p)
-        notice.appendChild(checkBtn)
-        notice.appendChild(cancelBtn)
-        form.appendChild(notice)
-
-        checkBtn.addEventListener("click", async () => {
-          checkBtn.disabled = true
-          checkBtn.textContent = "Checking..."
-          const statusResp = await fetch(`${VERIFICATION_BASE}/verify-status?email=${encodeURIComponent(email)}`)
-          const statusData = await statusResp.json()
-          if (statusData && statusData.success && statusData.verified) {
-            // proceed to submit contact
-            await submitContact({ name, email, message, form, submitBtn })
-            notice.remove()
-          } else {
-            alert('Email not verified yet. Please click the link from your email and then press this button.')
-            checkBtn.disabled = false
-            checkBtn.textContent = "I clicked the link — check status"
-          }
-        })
-
-        cancelBtn.addEventListener("click", () => {
-          notice.remove()
-          submitBtn.disabled = false
-          submitBtn.textContent = "Send Message"
-        })
-      }
-
-      // Optionally, auto-poll for verification for a short period (user experience improvement)
-      const MAX_POLL_MS = 60 * 1000 // 1 minute
-      const POLL_INTERVAL = 5000
-      const start = Date.now()
-
-      const poll = setInterval(async () => {
-        if (Date.now() - start > MAX_POLL_MS) {
-          clearInterval(poll)
-          return
-        }
-        try {
-          const statusResp = await fetch(`${VERIFICATION_BASE}/verify-status?email=${encodeURIComponent(email)}`)
-          const statusData = await statusResp.json()
-          if (statusData && statusData.success && statusData.verified) {
-            clearInterval(poll)
-            await submitContact({ name, email, message, form, submitBtn })
-            const n = document.getElementById('verify-notice')
-            if (n) n.remove()
-          }
-        } catch (e) {
-          // ignore polling errors
-        }
-      }, POLL_INTERVAL)
-    } catch (error) {
-      console.error('Verification flow error:', error)
-      alert('There was an error starting the verification process. Please try again later.')
-      submitBtn.disabled = false
-      submitBtn.textContent = 'Send Message'
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          successMessage.classList.remove("visible")
+        }, 5000)
+      }, 1000)
     }
   })
 
-    ;["name", "email", "message"].forEach((fieldId) => {
-      const field = document.getElementById(fieldId)
-      if (field) {
-        field.addEventListener("blur", () => validateField(fieldId))
-        field.addEventListener("input", () => {
-          field.classList.remove("error")
-          const errorEl = document.getElementById(`${fieldId}-error`)
-          if (errorEl) errorEl.classList.remove("visible")
-        })
-      }
-    })
-}
-
-// Helper to actually send the contact message after verification.
-async function submitContact({ name, email, message, form, submitBtn }) {
-  try {
-    submitBtn.textContent = 'Sending message...'
-    const response = await fetch(`${API_URL}/contact`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, message }),
-    })
-    const data = await response.json()
-    if (response.ok && data.success) {
-      const successMessage = document.getElementById('success-message')
-      successMessage.classList.add('visible')
-      form.reset()
-      setTimeout(() => successMessage.classList.remove('visible'), 5000)
-    } else {
-      throw new Error(data.error || 'Failed to send message')
+  // Real-time validation feedback
+  ;["name", "email", "message"].forEach((fieldId) => {
+    const field = document.getElementById(fieldId)
+    if (field) {
+      field.addEventListener("blur", () => validateField(fieldId))
+      field.addEventListener("input", () => {
+        field.classList.remove("error")
+        const errorEl = document.getElementById(`${fieldId}-error`)
+        if (errorEl) errorEl.classList.remove("visible")
+      })
     }
-  } catch (err) {
-    console.error('Contact submit error after verification:', err)
-    alert('Failed to send message after verification. Please try again later.')
-  } finally {
-    submitBtn.disabled = false
-    submitBtn.textContent = 'Send Message'
-  }
+  })
 }
 
+/**
+ * Show error for a form field
+ */
 function showError(fieldId, message) {
   const field = document.getElementById(fieldId)
   const errorEl = document.getElementById(`${fieldId}-error`)
@@ -867,6 +874,9 @@ function showError(fieldId, message) {
   }
 }
 
+/**
+ * Clear all form errors
+ */
 function clearErrors() {
   document.querySelectorAll(".error").forEach((el) => el.classList.remove("error"))
   document.querySelectorAll(".error-message").forEach((el) => {
@@ -875,6 +885,9 @@ function clearErrors() {
   })
 }
 
+/**
+ * Validate a single field
+ */
 function validateField(fieldId) {
   const field = document.getElementById(fieldId)
   if (!field) return
@@ -900,7 +913,11 @@ function validateField(fieldId) {
   }
 }
 
+/**
+ * Initialize hamburger menu with smooth transitions
+ */
 function initializeHamburgerMenu(hamburger, navMenu, overlay) {
+  // Toggle menu on hamburger click
   hamburger.addEventListener("click", () => {
     const isActive = hamburger.classList.contains("active")
 
@@ -908,27 +925,33 @@ function initializeHamburgerMenu(hamburger, navMenu, overlay) {
     navMenu.classList.toggle("active")
     overlay.classList.toggle("active")
 
+    // Update aria-expanded for accessibility
     hamburger.setAttribute("aria-expanded", !isActive)
 
+    // Prevent body scroll when menu is open
     document.body.style.overflow = isActive ? "" : "hidden"
   })
 
+  // Close menu when clicking overlay
   overlay.addEventListener("click", () => {
     closeMenu(hamburger, navMenu, overlay)
   })
 
+  // Close menu when clicking a nav link
   navMenu.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
       closeMenu(hamburger, navMenu, overlay)
     })
   })
 
+  // Close menu on escape key
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && hamburger.classList.contains("active")) {
       closeMenu(hamburger, navMenu, overlay)
     }
   })
 
+  // Close menu on window resize (if resizing to desktop)
   window.addEventListener("resize", () => {
     if (window.innerWidth > 768 && hamburger.classList.contains("active")) {
       closeMenu(hamburger, navMenu, overlay)
@@ -936,6 +959,9 @@ function initializeHamburgerMenu(hamburger, navMenu, overlay) {
   })
 }
 
+/**
+ * Helper function to close the mobile menu
+ */
 function closeMenu(hamburger, navMenu, overlay) {
   hamburger.classList.remove("active")
   navMenu.classList.remove("active")
@@ -948,77 +974,85 @@ function closeMenu(hamburger, navMenu, overlay) {
 // LOAD DATA FROM API
 // ============================================
 
+/**
+ * Load portfolio data from API and merge with defaults
+ */
 async function loadPortfolioData() {
   try {
     const response = await fetch(`${API_URL}/portfolio`)
-
+    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
-
+    
     const data = await response.json()
 
     if (data.success) {
+      // Update About text if available from API
       if (data.about && data.about.trim()) {
         PORTFOLIO_DATA.about = data.about
       }
 
-      if (data.skills && Array.isArray(data.skills) && data.skills.length > 0) {
-        data.skills.forEach((skill) => {
-          const category = (skill.category || "").toLowerCase().trim()
+     // Load Skills from API if available
+if (data.skills && Array.isArray(data.skills) && data.skills.length > 0) {
+  // Start with a copy of the current SKILLS (which are the defaults at this point)
+  const mergedSkills = {
+    frontend: [...SKILLS.frontend],
+    tools: [...SKILLS.tools],
+    backend: [...SKILLS.backend]
+  };
 
-          let targetCategory = "tools"
-          if (category === "frontend" || category === "front-end") {
-            targetCategory = "frontend"
-          } else if (category === "backend" || category === "back-end") {
-            targetCategory = "backend"
-          } else if (category === "tools" || category === "tool") {
-            targetCategory = "tools"
-          }
+  data.skills.forEach((skill) => {
+    const category = (skill.category || "").toLowerCase().trim();
 
-          const skillExists = SKILLS[targetCategory].some(
-            (existingSkill) => existingSkill.name.toLowerCase() === skill.name.toLowerCase()
-          )
+    // Determine target category
+    let targetCategory = "tools"; // default
+    if (category === "frontend" || category === "front-end") {
+      targetCategory = "frontend";
+    } else if (category === "backend" || category === "back-end") {
+      targetCategory = "backend";
+    } else if (category === "tools" || category === "tool") {
+      targetCategory = "tools";
+    }
 
-          if (!skillExists) {
-            SKILLS[targetCategory].push({
-              name: skill.name,
-              percentage: skill.percentage || 0,
-              icon: skill.icon || "fa-solid fa-code",
-            })
-          }
-        })
-      }
+    // Add the API skill to the merged list (you can optionally check for duplicates)
+    mergedSkills[targetCategory].push({
+      name: skill.name,
+      percentage: skill.percentage || 0,
+      icon: skill.icon || "fa-solid fa-code",
+    });
+  });
 
-      if (data.projects && Array.isArray(data.projects) && data.projects.length > 0) {
-        data.projects.forEach((project) => {
-          const existingIndex = PROJECTS.findIndex(
-            (existingProject) => existingProject.name.toLowerCase().trim() === project.name.toLowerCase().trim()
-          )
+  // Replace SKILLS with the merged result
+  SKILLS = mergedSkills;
+}
+// If no API skills, SKILLS remains the defaults (already set)
+      // Load Projects from API if available
+      // Load Projects from API if available
+if (data.projects && Array.isArray(data.projects) && data.projects.length > 0) {
+  // Start with a copy of the current PROJECTS (which are the defaults at this point)
+  const mergedProjects = [...PROJECTS];
 
-          if (existingIndex === -1) {
-            if (project.githubUrl && project.githubUrl !== "#") {
-              PROJECTS.push({
-                name: project.name,
-                description: project.description,
-                image: project.image || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop",
-                liveUrl: project.liveUrl || "#",
-                githubUrl: project.githubUrl,
-              })
-            }
-          } else {
-            if (project.githubUrl && project.githubUrl !== "#" && project.githubUrl.trim() !== "") {
-              PROJECTS[existingIndex].githubUrl = project.githubUrl
-            }
-            if (project.liveUrl && project.liveUrl !== "#" && project.liveUrl.trim() !== "") {
-              PROJECTS[existingIndex].liveUrl = project.liveUrl
-            }
-          }
-        })
-      }
+  data.projects.forEach((project) => {
+    // Avoid duplicates by checking if a project with the same name already exists
+    const exists = mergedProjects.some(p => p.name === project.name);
+    if (!exists) {
+      mergedProjects.push({
+        name: project.name,
+        description: project.description,
+        image: project.image || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop",
+        liveUrl: project.liveUrl || "#",
+        githubUrl: project.githubUrl || "#",
+      });
+    }
+  });
+
+  PROJECTS = mergedProjects;
+}
     }
   } catch (error) {
     console.error("Error loading portfolio data from API, using defaults:", error)
+    // Keep default data if API fails
   }
 }
 
@@ -1027,8 +1061,10 @@ async function loadPortfolioData() {
 // ============================================
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // Load data from API first (will fallback to defaults if fails)
   await loadPortfolioData()
-
+  
+  // Render all sections using safe DOM APIs
   renderHeader()
   renderHero()
   renderAbout()
@@ -1037,8 +1073,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderContact()
   renderFooter()
 
+  // Initialize typewriter effect
   typeWriter("typewriter-title", PORTFOLIO_DATA.title)
 
+  // Fade in about section
   const aboutText = document.getElementById("about-typewriter")
   if (aboutText) {
     setTimeout(() => {
@@ -1046,3 +1084,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 500)
   }
 })
+
+
