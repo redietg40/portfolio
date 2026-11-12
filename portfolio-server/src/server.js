@@ -163,11 +163,11 @@ app.delete('/api/admin/skills/:id', async (req,res)=>{
 app.post('/api/admin/projects', async (req,res)=>{
     try {
         const {name, description, liveUrl, image, githubUrl}=req.body;    
-        if(!name || !description || !liveUrl || !image){
-            return res.status(400).json({error:'Name, description, liveUrl and image are required'});
+        if(!name || !description || !liveUrl){
+            return res.status(400).json({error:'Name, description and liveUrl are required'});
         }
         const newProject = await prisma.project.create({
-            data: { name, description, liveUrl, image, githubUrl: githubUrl || null }
+            data: { name, description, liveUrl, image: image || '', githubUrl: githubUrl || null }
         });
         res.json({success:true, project: newProject});
     } catch (error) {
@@ -190,7 +190,7 @@ app.put('/api/admin/projects/:id', async (req,res)=>{
         const {name, description, liveUrl, image, githubUrl}=req.body;
         const updatedProject = await prisma.project.update({
             where: { id: parseInt(id) },
-            data: { name, description, liveUrl, image, githubUrl: githubUrl || null }
+            data: { name, description, liveUrl, ...(image !== undefined ? { image } : {}), githubUrl: githubUrl || null }
         });
         res.json({success:true, project: updatedProject});
     } catch (error) {
