@@ -182,6 +182,14 @@ const DEFAULT_PROJECTS = [
     liveUrl: "#",
     githubUrl: "https://github.com/redietg40/brokermanagement.git",
   },
+  {
+    name: "FixFlow — Field Service & Technician Dispatch Platform",
+    image: "images/fixflow-ecosystem.jpg",
+    description:
+      "FixFlow is an end-to-end operations and dispatch platform designed for service businesses, field technicians, and customers. It replaces manual phone/spreadsheet coordination with a unified workflow covering self-service booking, live job dispatching, inventory part tracking, digital identity verification, and automated financial ledgers.",
+    liveUrl: "https://kinetic-joy-kit-iota.vercel.app/",
+    githubUrl: "https://github.com/redietg40/kinetic-joy-kit.git",
+  },
 ]
 
 // ============================================
@@ -1034,16 +1042,18 @@ if (data.projects && Array.isArray(data.projects) && data.projects.length > 0) {
   const mergedProjects = [...PROJECTS];
 
   data.projects.forEach((project) => {
-    // Avoid duplicates by checking if a project with the same name already exists
-    const exists = mergedProjects.some(p => p.name === project.name);
-    if (!exists) {
-      mergedProjects.push({
-        name: project.name,
-        description: project.description,
-        image: project.image || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop",
-        liveUrl: project.liveUrl || "#",
-        githubUrl: project.githubUrl || "#",
-      });
+    const projectItem = {
+      name: project.name,
+      description: project.description,
+      image: project.image || "images/fixflow-ecosystem.jpg",
+      liveUrl: project.liveUrl || "#",
+      githubUrl: project.githubUrl || "#",
+    };
+    const index = mergedProjects.findIndex(p => p.name === project.name);
+    if (index !== -1) {
+      mergedProjects[index] = projectItem;
+    } else {
+      mergedProjects.push(projectItem);
     }
   });
 
