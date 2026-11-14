@@ -141,46 +141,43 @@ const DEFAULT_SKILLS = {
   ],
 }
 
+const PROJECT_ORDER = [
+  "University Placement Platform",
+  "Adtocare",
+  "FixFlow",
+  "Internship Placement Platform",
+  "Brokerage Management System",
+];
+
+function sortProjects(projects) {
+  return projects
+    .filter((p) => !p.name.toLowerCase().includes("ethio trip"))
+    .sort((a, b) => {
+      const indexA = PROJECT_ORDER.findIndex((key) => a.name.toLowerCase().includes(key.toLowerCase()));
+      const indexB = PROJECT_ORDER.findIndex((key) => b.name.toLowerCase().includes(key.toLowerCase()));
+      if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+      if (indexA !== -1) return -1;
+      if (indexB !== -1) return 1;
+      return 0;
+    });
+}
+
 const DEFAULT_PROJECTS = [
   {
-    name: "Internship Placement Platform",
-    image: "images/internship-platform-with-students-and-companies.jpg",
-    description:
-      "A modern e-commerce platform built with React and Node.js, featuring user authentication, shopping cart, and payment integration.",
-    liveUrl: "#",
-    githubUrl: "https://github.com/redietg40/internship-placement.git",
-  },
-  {
-    name: "Ethio Trip Platform",
-    image: "images/ethiopia-travel-tourism-platform-with-lalibela-chu.jpg",
-    description:
-      "An interactive web platform for discovering curated tours and cultural highlights across Ethiopia, built with React and modern UI/UX design.",
-    liveUrl: "#",
-    githubUrl: "https://github.com/redietg40/city-touring.git",
-  },
-  {
     name: "University Placement Platform",
-    image: "images/university-placement-platform.png",
+    image: "images/university-selection-platform.png",
     description:
       "A comprehensive university selection and placement platform that helps students discover, compare, and apply to universities based on their preferences and qualifications.",
-    liveUrl: "#",
+    liveUrl: "https://university-selection-platforms.vercel.app/",
     githubUrl: "https://github.com/university-place/university-selection-platforms.git",
   },
   {
     name: "Adtocare",
-    image: "images/adtocare-platform.png",
+    image: "images/addtocare-women-empowerment.png",
     description:
       "Adtocare is a smart advertising and care management platform designed to connect businesses with their target audience through intelligent ad delivery and customer engagement tools.",
-    liveUrl: "#",
+    liveUrl: "https://github.com/redietg40/Adstocares.git",
     githubUrl: "https://github.com/redietg40/Adstocares.git",
-  },
-  {
-    name: "Brokerage Management System",
-    image: "images/broker-images.jpg",
-    description:
-      "A secure platform connecting verified brokers with customers, featuring broker registration, listing management, and admin dashboard.",
-    liveUrl: "#",
-    githubUrl: "https://github.com/redietg40/brokermanagement.git",
   },
   {
     name: "FixFlow — Field Service & Technician Dispatch Platform",
@@ -189,6 +186,22 @@ const DEFAULT_PROJECTS = [
       "FixFlow is an end-to-end operations and dispatch platform designed for service businesses, field technicians, and customers. It replaces manual phone/spreadsheet coordination with a unified workflow covering self-service booking, live job dispatching, inventory part tracking, digital identity verification, and automated financial ledgers.",
     liveUrl: "https://kinetic-joy-kit-iota.vercel.app/",
     githubUrl: "https://github.com/redietg40/kinetic-joy-kit.git",
+  },
+  {
+    name: "Internship Placement Platform",
+    image: "images/internship-platform-with-students-and-companies.jpg",
+    description:
+      "A modern e-commerce platform built with React and Node.js, featuring user authentication, shopping cart, and payment integration.",
+    liveUrl: "https://github.com/redietg40/internship-placement.git",
+    githubUrl: "https://github.com/redietg40/internship-placement.git",
+  },
+  {
+    name: "Brokerage Management System",
+    image: "images/broker-images.jpg",
+    description:
+      "A secure platform connecting verified brokers with customers, featuring broker registration, listing management, and admin dashboard.",
+    liveUrl: "https://github.com/redietg40/brokermanagement.git",
+    githubUrl: "https://github.com/redietg40/brokermanagement.git",
   },
 ]
 
@@ -1057,7 +1070,7 @@ if (data.projects && Array.isArray(data.projects) && data.projects.length > 0) {
     }
   });
 
-  PROJECTS = mergedProjects;
+  PROJECTS = sortProjects(mergedProjects);
 }
     }
   } catch (error) {

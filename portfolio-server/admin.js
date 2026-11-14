@@ -1,5 +1,8 @@
-// API Base URL - Backend server runs on port 3000
-const API_URL = "http://localhost:3000/api"
+// API Base URL - Auto-detect local vs Vercel
+const API_URL =
+  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:3000/api"
+    : "/api"
 
 // State
 let currentFilter = "all"
@@ -332,10 +335,32 @@ async function deleteSkill(id) {
 // PROJECTS SECTION
 // ============================================
 
+const PROJECT_ORDER = [
+  "University Placement Platform",
+  "Adtocare",
+  "FixFlow",
+  "Internship Placement Platform",
+  "Brokerage Management System",
+];
+
+function sortProjects(projects) {
+  return [...projects]
+    .filter((p) => !p.name.toLowerCase().includes("ethio trip"))
+    .sort((a, b) => {
+      const indexA = PROJECT_ORDER.findIndex((key) => a.name.toLowerCase().includes(key.toLowerCase()));
+      const indexB = PROJECT_ORDER.findIndex((key) => b.name.toLowerCase().includes(key.toLowerCase()));
+      if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+      if (indexA !== -1) return -1;
+      if (indexB !== -1) return 1;
+      return 0;
+    });
+}
+
 function renderProjects(projects) {
   const container = document.getElementById("projects-list")
+  const sortedProjects = sortProjects(projects)
 
-  if (projects.length === 0) {
+  if (sortedProjects.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
         <i class="fas fa-project-diagram"></i>
@@ -345,7 +370,7 @@ function renderProjects(projects) {
     return
   }
 
-  container.innerHTML = projects
+  container.innerHTML = sortedProjects
     .map(
       (project) => `
     <div class="project-item" data-id="${project.id}">
